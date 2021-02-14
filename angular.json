@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "resto": {
+    "mean-stack-application": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:application": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/resto",
+            "outputPath": "dist/mean-stack-application",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -66,18 +66,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "resto:build"
+            "browserTarget": "mean-stack-application:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "resto:build:production"
+              "browserTarget": "mean-stack-application:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "resto:build"
+            "browserTarget": "mean-stack-application:build"
           }
         },
         "test": {
@@ -114,18 +114,18 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "resto:serve"
+            "devServerTarget": "mean-stack-application:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "resto:serve:production"
+              "devServerTarget": "mean-stack-application:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "resto",
+  "defaultProject": "mean-stack-application",
   "cli": {
     "analytics": "03846cd1-2a59-4114-9ad6-6955e9c0e4ee"
   }
