@@ -1,12 +1,14 @@
 const express = require("express");
-require("./db/conn");
+const bodyParser = require("body-parser");
 const cors = require('cors');
 const Student = require("./models/students");
+require("./db/conn");
 
 const app = express();
 const port = process.env.PORT || 8000;
 
 app.use(express.json());
+app.use(bodyParser.json());
 app.use(cors());
 app.use(express.static('./dist/mean-stack-application'));
 

@@ -6,7 +6,7 @@ import { environment } from '../environments/environment'
   providedIn: 'root'
 })
 export class RestoService {
-  url="https://mean-curd-app.herokuapp.com/student"
+  url="/student"
   constructor(private http: HttpClient) { }
   getList(){
    return this.http.get(this.url)
