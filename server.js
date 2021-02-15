@@ -1,12 +1,13 @@
 const express = require("express");
 require("./db/conn");
-
+const cors = require('cors');
 const Student = require("./models/students");
 
 const app = express();
 const port = process.env.PORT || 8000;
 
 app.use(express.json());
+app.use(cors());
 app.use(express.static('./dist/mean-stack-application'));
 
 app.all("/*", (req, res, next) => {
@@ -19,8 +20,7 @@ app.all("/*", (req, res, next) => {
 
 // Create New Student
 
-app.post("/student", async(req,res) => {
-    
+app.post("/student", async(req,res) => {  
     try{
         const user = new Student(req.body);
         const createUser = await user.save();
@@ -37,7 +37,7 @@ app.get("/student", async(req,res) => {
         const studentsData = await Student.find();
         res.send(studentsData);
     }catch(e){
-        res.send(e);
+        res.status(400).send(e);
     }
 })
 
