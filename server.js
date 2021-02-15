@@ -22,7 +22,7 @@ app.all("/*", (req, res, next) => {
 
 // Create New Student
 
-app.post("/student", async(req,res) => {  
+app.post("/student/students", async(req,res) => {  
     try{
         const user = new Student(req.body);
         const createUser = await user.save();
@@ -34,9 +34,9 @@ app.post("/student", async(req,res) => {
 
 // Read Students
 
-app.get("/student", async(req,res) => {
+app.get("/student/students", async(req,res) => {
     try{
-        const studentsData = await Student.find();
+        const studentsData = await Student.find({});
         res.send(studentsData);
     }catch(e){
         res.status(400).send(e);
@@ -45,7 +45,7 @@ app.get("/student", async(req,res) => {
 
 // Read One Student
 
-app.get("/student/:id", async(req,res) => {
+app.get("/student/students/:id", async(req,res) => {
     try{
         const _id = req.params.id;
         const studentData = await Student.findById(_id);
@@ -61,7 +61,7 @@ app.get("/student/:id", async(req,res) => {
 
 // Update One Student
 
-app.patch("/student/:id", async(req,res) => {
+app.patch("/student/students/:id", async(req,res) => {
     try{
         const _id = req.params.id;
         const updateStudents = await Student.findByIdAndUpdate(_id, req.body, {
@@ -73,7 +73,7 @@ app.patch("/student/:id", async(req,res) => {
     }
 })
 
-app.put("/student/:id", async(req,res) => {
+app.put("/student/students/:id", async(req,res) => {
     try{
         const _id = req.params.id;
         const updateStudent = await Student.findByIdAndUpdate(_id, req.body, {
@@ -87,7 +87,7 @@ app.put("/student/:id", async(req,res) => {
 
 // Delete One Student
 
-app.delete("/student/:id", async(req,res) => {
+app.delete("/student/students/:id", async(req,res) => {
     try{
         const deleteStudent = await Student.findByIdAndDelete(req.params.id);
         if(!req.params.id){

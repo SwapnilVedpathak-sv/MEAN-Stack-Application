@@ -6,7 +6,7 @@ import { environment } from '../environments/environment'
   providedIn: 'root'
 })
 export class RestoService {
-  url="/student"
+  url="/student/students"
   constructor(private http: HttpClient) { }
   getList(){
    return this.http.get(this.url)
