@@ -1,105 +1,90 @@
-const express = require("express");
-const bodyParser = require("body-parser");
+const express = require('express');
 const cors = require('cors');
 const Student = require("./models/students");
-require("./db/conn");
-
 const app = express();
+app.use(cors());
+require("./db/conn")
+
 const port = process.env.PORT || 8000;
 
 app.use(express.json());
-app.use(bodyParser.json());
-app.use(cors());
-app.use(express.static('./dist/mean-stack-application'));
 
-app.all("/*", (req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS, PATCH");
-  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, Content-Length, X-Requested-With");
-  next();
-});
+// Post Request For Create Student
 
-
-// Create New Student
-
-app.post("/student/students", async(req,res) => {  
-    try{
-        const user = new Student(req.body);
-        const createUser = await user.save();
-        res.status(201).send(createUser);
-    }catch(e){
+app.post("/students", ( req, res ) =>{
+    console.log(req.body);
+    const user = new Student(req.body);
+    user.save().then(() => {
+        res.status(201).send(user);
+    }).catch((e) => {
         res.status(400).send(e);
+    })
+})
+
+// Get Request For All Student
+
+app.get("/studentData", async( req,res ) => {
+    try{
+        const getStudentsData = await Student.find();
+        console.log(getStudentsData);
+        res.send(getStudentsData);
+    }catch(e){
+        res.send(e);
     }
 })
 
-// Read Students
+// Get Request For Only Single Student
 
-app.get("/student/students", async(req,res) => {
-    try{
-        const studentsData = await Student.find({});
-        res.send(studentsData);
-    }catch(e){
-        res.status(400).send(e);
-    }
-})
-
-// Read One Student
-
-app.get("/student/students/:id", async(req,res) => {
+app.get("/studentData/:id", async( req,res ) => {
     try{
         const _id = req.params.id;
-        const studentData = await Student.findById(_id);
-            if(!studentData){
-                return res.status(404).send();
-            }else{
-                res.send(studentData);
-            }
+        const singleStudentData = await Student.findById(_id);
+        res.send(singleStudentData); 
     }catch(e){
-        res.status(500).send(e);
+        res.send(e);
     }
 })
 
-// Update One Student
+// Put Request For Update Specific Student
 
-app.patch("/student/students/:id", async(req,res) => {
+app.put("/students/:id", async( req,res ) => {
     try{
         const _id = req.params.id;
-        const updateStudents = await Student.findByIdAndUpdate(_id, req.body, {
+        const putRequest = await Student.findByIdAndUpdate(_id, req.body, {
             new : true
         });
-        res.send(updateStudents);
+        res.send(putRequest); 
     }catch(e){
-        res.status(404).send(e);
+        res.send(e);
     }
 })
 
-app.put("/student/students/:id", async(req,res) => {
+// Patch Request For Update Specific Student
+
+app.patch("/students/:id", async( req,res ) => {
     try{
         const _id = req.params.id;
-        const updateStudent = await Student.findByIdAndUpdate(_id, req.body, {
+        const patchRequest = await Student.findByIdAndUpdate(_id, req.body, {
             new : true
         });
-        res.send(updateStudent);
+        res.send(patchRequest); 
     }catch(e){
-        res.status(404).send(e);
+        res.send(e);
     }
 })
 
-// Delete One Student
+// Delete Request For Delete Specific Student
 
-app.delete("/student/students/:id", async(req,res) => {
+app.delete("/students/:id", async( req,res ) => {
     try{
-        const deleteStudent = await Student.findByIdAndDelete(req.params.id);
-        if(!req.params.id){
-            return res.status(400).send();
-        }
-        res.send(deleteStudent);
+        const _id = req.params.id;
+        const deleteRequest = await Student.findByIdAndDelete(_id)
+        res.send(deleteRequest); 
     }catch(e){
-        res.status(500).send(e);
+        res.send(e);
     }
-}) 
-
+})
 
 app.listen(port, () => {
-    console.log(`connection is setup at ${port}`);
+    console.log(`Connection is setup at ${port}`);
 })
