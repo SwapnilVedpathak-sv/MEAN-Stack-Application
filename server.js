@@ -1,109 +1,145 @@
 const express = require('express');
-const cors = require('cors');
-const path = require("path");
-const header = require("./middleware/header")
-const Student = require("./models/students");
+const mongoose = require ("mongoose");
 const app = express();
+require('dotenv').config();
+const studentRoute = require('./routes/students');
 
-app.use(cors());
-app.use(express.static('./dist/mean-stack-application'));
-app.use(cors({origin: '*'}));
-app.use(header);
-require("./db/conn")
+const PORT = process.env.PORT || 3000;
 
-const port = process.env.PORT || 8000;
+const cors = require('cors');
+
 
 app.use(express.json());
+app.use(express.urlencoded({extended:true}));
+app.use(cors());
+app.use(express.static('./dist/mean-stack-application'));
 
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  res.header("Access-Control-Allow-Methods", "GET, PUT, PATCH, POST, DELETE, OPTIONS")
-  next();
-});
+app.use('/api/students',studentRoute);
 
-
-app.get("/*", function (req, res) {
-    res.sendFile(path.resolve(__dirname, './src', 'index.html'));
+mongoose.connect(process.env.MONGO_URL, {
+    useCreateIndex: true,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false
+}).then(() => {
+    console.log("Connection is Successful");
+}).catch((e) => {
+    console.log("No Connection");
 })
 
 
-// Post Request For Create Student
 
-app.post("/students", ( req, res ) =>{
-    console.log(req.body);
-    const user = new Student(req.body);
-    user.save().then(() => {
-        res.status(201).send(user);
-    }).catch((e) => {
-        res.status(400).send(e);
-    })
-})
 
-// Get Request For All Student
 
-app.get("/studentData", async( req,res ) => {
-    try{
-        const getStudentsData = await Student.find();
-        console.log(getStudentsData);
-        res.send(getStudentsData);
-    }catch(e){
-        res.send(e);
-    }
-})
 
-// Get Request For Only Single Student
 
-app.get("/studentData/:id", async( req,res ) => {
-    try{
-        const _id = req.params.id;
-        const singleStudentData = await Student.findById(_id);
-        res.send(singleStudentData); 
-    }catch(e){
-        res.send(e);
-    }
-})
 
-// Put Request For Update Specific Student
 
-app.put("/students/:id", async( req,res ) => {
-    try{
-        const _id = req.params.id;
-        const putRequest = await Student.findByIdAndUpdate(_id, req.body, {
-            new : true
-        });
-        res.send(putRequest); 
-    }catch(e){
-        res.send(e);
-    }
-})
 
-// Patch Request For Update Specific Student
+// const path = require("path");
+// const header = require("./middleware/header")
+// const Student = require("./models/students");
 
-app.patch("/students/:id", async( req,res ) => {
-    try{
-        const _id = req.params.id;
-        const patchRequest = await Student.findByIdAndUpdate(_id, req.body, {
-            new : true
-        });
-        res.send(patchRequest); 
-    }catch(e){
-        res.send(e);
-    }
-})
 
-// Delete Request For Delete Specific Student
+// app.use(cors());
+// app.use(express.static('./dist/mean-stack-application'));
+// app.use(cors({origin: '*'}));
+// app.use(header);
+// require("./db/conn")
 
-app.delete("/students/:id", async( req,res ) => {
-    try{
-        const _id = req.params.id;
-        const deleteRequest = await Student.findByIdAndDelete(_id)
-        res.send(deleteRequest); 
-    }catch(e){
-        res.send(e);
-    }
-})
 
-app.listen(port, () => {
-    console.log(`Connection is setup at ${port}`);
+
+
+
+// app.use(function(req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//   res.header("Access-Control-Allow-Methods", "GET, PUT, PATCH, POST, DELETE, OPTIONS")
+//   next();
+// });
+
+
+// app.get("/*", function (req, res) {
+//     res.sendFile(path.resolve(__dirname, './src', 'index.html'));
+// })
+
+
+// // Post Request For Create Student
+
+// app.post("/students", ( req, res ) =>{
+//     console.log(req.body);
+//     const user = new Student(req.body);
+//     user.save().then(() => {
+//         res.status(201).send(user);
+//     }).catch((e) => {
+//         res.status(400).send(e);
+//     })
+// })
+
+// // Get Request For All Student
+
+// app.get("/studentData", async( req,res ) => {
+//     try{
+//         const getStudentsData = await Student.find();
+//         console.log(getStudentsData);
+//         res.send(getStudentsData);
+//     }catch(e){
+//         res.send(e);
+//     }
+// })
+
+// // Get Request For Only Single Student
+
+// app.get("/studentData/:id", async( req,res ) => {
+//     try{
+//         const _id = req.params.id;
+//         const singleStudentData = await Student.findById(_id);
+//         res.send(singleStudentData); 
+//     }catch(e){
+//         res.send(e);
+//     }
+// })
+
+// // Put Request For Update Specific Student
+
+// app.put("/students/:id", async( req,res ) => {
+//     try{
+//         const _id = req.params.id;
+//         const putRequest = await Student.findByIdAndUpdate(_id, req.body, {
+//             new : true
+//         });
+//         res.send(putRequest); 
+//     }catch(e){
+//         res.send(e);
+//     }
+// })
+
+// // Patch Request For Update Specific Student
+
+// app.patch("/students/:id", async( req,res ) => {
+//     try{
+//         const _id = req.params.id;
+//         const patchRequest = await Student.findByIdAndUpdate(_id, req.body, {
+//             new : true
+//         });
+//         res.send(patchRequest); 
+//     }catch(e){
+//         res.send(e);
+//     }
+// })
+
+// // Delete Request For Delete Specific Student
+
+// app.delete("/students/:id", async( req,res ) => {
+//     try{
+//         const _id = req.params.id;
+//         const deleteRequest = await Student.findByIdAndDelete(_id)
+//         res.send(deleteRequest); 
+//     }catch(e){
+//         res.send(e);
+//     }
+// })
+
+app.listen(PORT, () => {
+    console.log(`Connection is setup at ${PORT}`);
 })

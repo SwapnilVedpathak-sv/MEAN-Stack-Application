@@ -11,7 +11,7 @@ export class RestoService {
   
     readonly baseUrl = '';
     readonly fetchUrl = '/studentData';
-    readonly url = '/students';
+    readonly url = '/api/students';
  
 
   getList(){
