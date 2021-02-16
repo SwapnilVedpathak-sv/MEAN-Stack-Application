@@ -20,6 +20,11 @@ app.use(function(req, res, next) {
 });
 
 
+app.get("/*", function (req, res) {
+    res.sendFile(path.resolve(__dirname, './src', 'index.html'));
+})
+
+
 // Post Request For Create Student
 
 app.post("/students", ( req, res ) =>{

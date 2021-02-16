@@ -7,7 +7,7 @@ import { environment } from '../environments/environment'
 })
 export class RestoService {
 
-    readonly baseUrl = 'https://mean-curd-app.herokuapp.com';
+    readonly baseUrl = '';
     readonly fetchUrl = '/studentData';
     readonly url = '/students';
  
