@@ -1,11 +1,14 @@
 const express = require('express');
 const cors = require('cors');
+const path = require("path");
+const header = require("./middleware/header")
 const Student = require("./models/students");
 const app = express();
 
 app.use(cors());
 app.use(express.static('./dist/mean-stack-application'));
-
+app.use(cors({origin: '*'}));
+app.use(header);
 require("./db/conn")
 
 const port = process.env.PORT || 8000;

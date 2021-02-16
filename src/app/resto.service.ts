@@ -6,12 +6,13 @@ import { environment } from '../environments/environment'
   providedIn: 'root'
 })
 export class RestoService {
-
+  
+  constructor(private http: HttpClient) { }
+  
     readonly baseUrl = '';
     readonly fetchUrl = '/studentData';
     readonly url = '/students';
  
-  constructor(private http: HttpClient) { }
 
   getList(){
    return this.http.get(`${this.baseUrl}${this.fetchUrl}`)
