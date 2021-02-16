@@ -11,4 +11,13 @@ router.post('/',(req,res) => {
     })
 })
 
+router.get("/", (req,res) => {
+    Student.find()
+    .then((student) => res.send(student))
+    .catch((e) => {
+        res.status(500).send("Something Went Wrong");
+    });
+});
+
+
 module.exports = router;
