@@ -10,12 +10,12 @@ export class RestoService {
   constructor(private http: HttpClient) { }
   
     readonly baseUrl = '';
-    // readonly fetchUrl = '/api/students';
-    readonly url = '/api/students';
+    readonly fetchUrl = '/studentData';
+    readonly url = '/students';
  
 
   getList(){
-   return this.http.get(`${this.baseUrl}${this.url}`)
+   return this.http.get(`${this.baseUrl}${this.fetchUrl}`)
   }
   saveResto(data:any){
     // console.warn(data)
@@ -25,7 +25,7 @@ export class RestoService {
     return this.http.delete(`${this.baseUrl}${this.url}/${id}`)
   }
   getCurrentResto(id:any){
-    return this.http.get(`${this.baseUrl}${this.url}/${id}`)
+    return this.http.get(`${this.baseUrl}${this.fetchUrl}/${id}`)
   }
   updateResto(id:any,data:any){
     return this.http.put(`${this.baseUrl}${this.url}/${id}`,data)
